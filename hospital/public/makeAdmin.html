@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Login </title>
+</head>
+<body>
+    <div id="Tiltle">
+    <h2 id="make_admin">Make Admin</h2>
+    </div>
+    <div id = "createAdmin">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <input type="text" id="phone_number" placeholder="PhoneNumber">
+        <input type="text" id="role" list="role_list" placeholder="Role">
+        <datalist id="role_list">
+            <option value="doctor">
+            <option value="nurse">
+            <option value="admin">
+
+            </option>
+        
+        </datalist>
+        <button onclick="addAdmin()">addAccount</button>
+    </div>
+   
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+<script src="index1.js"></script>
+<script>
+    async function addAdmin(){
+    email = document.getElementById('email').value
+    password = document.getElementById('password').value
+    phoneNumber = document.getElementById('phone_number').value
+    role = document.getElementById('role').value
+    // const respone = await fetch('../api/getId', {
+    //     method: 'POST',
+    //     headers:{
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({email})
+    // })
+    // if (response.ok){
+
+    // }
+    var data = {
+        email : email,
+        password : password,
+        phoneNumber : phoneNumber,
+        role : role,
+    }
+
+    if(role == "doctor"){
+        firebase.database().ref('doctorList/' + phoneNumber).set(data)
+        .then(()=>{
+        alert('Add doctor success')
+        }
+    )}
+    else if(role == "nurse"){
+        firebase.database().ref('nurseList/' + phoneNumber).set(data)
+        .then(() => {
+            alert('Add nurse success')
+        })
+    }
+    else if(role == "admin"){
+        firebase.database().ref('adminList/' + phoneNumber).set(data)
+        .then(() => {
+            alert('Add addmin success')
+        })
+    }
+    
+}
+</script>
+</html>

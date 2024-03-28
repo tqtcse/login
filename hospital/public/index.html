@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Login </title>
+</head>
+<body>
+    <div id="test1">
+    <h2 id="form">Đặt lịch khám</h2>
+    </div>
+        <input type="text" id="full_name21" placeholder="Full name">
+        <input type="text" id="gender" placeholder="Gender">
+        <input type="text" id="age" placeholder="Age">
+        <input type="text" id="number" placeholder="Phone number">
+        <input type="text" id="address" placeholder="Address">
+    <div id="book">
+        <input type="text" id="bhyt" placeholder="BHYT">
+        <input type="text" id="khoa" list="khoalist" placeholder="Khoa kham">
+        <datalist id="khoalist">
+            <option value="khoa trĩ">
+            <option value="khoa tam than">
+
+            </option>
+        
+        </datalist>
+    </div>
+    
+    <div id="button_cointer">
+        <button onclick="submit()">Submit</button>
+    </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+<script src="index1.js"></script>
+
+
+<script>
+//    //const admin = require('firebase-admin');
+//    const serviceAccount = require('./serviceAccount.json');
+//    admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount)
+//    })
+
+
+     document.addEventListener('DOMContentLoaded', function() {
+       checkLoginStatus();
+   });
+
+function checkLoginStatus() {
+    const token = localStorage.getItem('idToken');
+    console.log(token)
+    // firebase.auth().currentUser.getIdTokenResult()
+    //         .then((idTokenResult) => {
+    //         // Lấy thông tin tùy chỉnh từ token
+    //         const role = idTokenResult.claims.role;
+    //         console.log('User role:', role);
+    //     })
+       
+       firebase.auth().onAuthStateChanged(async function(user) {
+        if (user) {
+      firebase.database().ref('a').once('value')
+      .then((snapshot) => {
+        console.log('truy cập thành công')
+      })
+      .catch((error) => {
+        console.log('Error accessing restricted data:', error);
+      })
+   } else {
+       
+       console.log("No user is signed in.");
+       window.location.href = "login.html";
+
+   }
+    }); 
+   }
+function logout(){
+    firebase.auth().signOut().then(function(){
+        console.log("User signed out")
+    }).catch(function(error){
+        console.error("Error signing out", error)
+})
+}
+
+</script>
+
+</html>
